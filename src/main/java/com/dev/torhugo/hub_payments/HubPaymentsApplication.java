@@ -1,5 +1,6 @@
 package com.dev.torhugo.hub_payments;
 
+import com.dev.torhugo.hub_payments.lib.data.domain.UserModel;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

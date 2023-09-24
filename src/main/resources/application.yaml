@@ -1,0 +1,36 @@
+############
+## CONFIG ##
+############
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/hub_payment
+    username: postgres
+    password: 10021977
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  messages:
+    basename: messages
+
+############
+## TOKEN  ##
+############
+access:
+  token:
+    value: $aact_YTU5YTE0M2M2N2I4MTliNzk0YTI5N2U5MzdjNWZmNDQ6OjAwMDAwMDAwMDAwMDAwNjQyODc6OiRhYWNoX2MxZTMxYzljLWI2M2ItNDM4YS05Njc3LWFjYjVjZjRiODQxYw==
+
+############
+## CLIENT ##
+############
+request:
+  host:
+    value: https://sandbox.asaas.com/api/v3
+  endpoint:
+    client:
+      creat_client:
+        value: /customers
