@@ -53,6 +53,32 @@ public class UserServiceImpl implements UserService {
         return userMapper.modelToResponse(userModel, userId, customerResponse);
     }
 
+    @Override
+    public UserResponseDTO retrieveById(final Long userId) {
+        log.info("[1] - Retrieve user by id. [{}]", userId);
+        final UserModel userModel = findById(userId);
+        log.info("[2] - Retrieve customer by userId.");
+        final CustomerModel customerModel = findCustomerById(userId);
+        log.info("[3] - Mapping to response.");
+        return mappingResponse(userModel, userId, customerModel);
+    }
+
+    private UserResponseDTO mappingResponse(final UserModel userModel,
+                                            final Long userId,
+                                            final CustomerModel customerModel) {
+        final CustomerResponseDTO customerResponseDTO =
+                customerMapper.modelToResponse(customerModel, customerModel.getCustomerId());
+        return userMapper.modelToResponse(userModel, userId, customerResponseDTO);
+    }
+
+    private CustomerModel findCustomerById(final Long userId) {
+        return customerService.retrieveByUserId(userId);
+    }
+
+    private UserModel findById(final Long userId) {
+        return userRepository.retrieveById(userId);
+    }
+
     private Long savedUser(final UserModel userModel){
         userRepository.save(userModel);
         return retrieveUserByEmail(userModel.getEmail()).getUserId();

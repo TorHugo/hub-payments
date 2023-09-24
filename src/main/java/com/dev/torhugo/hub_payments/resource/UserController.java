@@ -7,10 +7,7 @@ import com.dev.torhugo.hub_payments.util.HubResource;
 import com.dev.torhugo.hub_payments.util.HubResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/user")
@@ -23,5 +20,13 @@ public class UserController implements HubResource {
             @RequestBody final UserRequestDTO user
     ) {
         return returnSuccess(userService.register(user));
+    }
+
+    @CrossOrigin(origins = "http://localhost:5500")
+    @GetMapping("/retrieve/{userId}")
+    public ResponseEntity<HubResponse<UserResponseDTO>> retrieveToUser(
+            @PathVariable final Long userId
+    ) {
+        return returnSuccess(userService.retrieveById(userId));
     }
 }

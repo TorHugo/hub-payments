@@ -24,6 +24,9 @@ public class UserRepositoryImpl implements UserRepository {
     @Value("${SPS.USER.WHERE.EMAIL}")
     private String queryRetrieveByEmail;
 
+    @Value("${SPS.USER.WHERE.USER_ID}")
+    private String queryRetrieveById;
+
     @Value("${SPI.USER}")
     private String queryInsertUser;
 
@@ -40,7 +43,18 @@ public class UserRepositoryImpl implements UserRepository {
         databaseService.persist(queryInsertUser, userModel);
     }
 
+    @Override
+    public UserModel retrieveById(final Long userId) {
+        return databaseService.retrieve(queryRetrieveById,
+                buildParam(userId),
+                BeanPropertyRowMapper.newInstance(UserModel.class))
+                .orElseThrow(() -> new DataBaseException("Entity not found!", userId));
+    }
+
     private MapSqlParameterSource buildParam(final String email) {
         return new MapSqlParameterSource("email", email);
+    }
+    private MapSqlParameterSource buildParam(final Long userId){
+        return new MapSqlParameterSource("userId", userId);
     }
 }

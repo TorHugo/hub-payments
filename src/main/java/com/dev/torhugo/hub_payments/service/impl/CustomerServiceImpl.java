@@ -41,6 +41,12 @@ public class CustomerServiceImpl implements CustomerService {
         return mappingToResponse(customerModel);
     }
 
+    @Override
+    public CustomerModel retrieveByUserId(final Long userId) {
+        log.info("[1] - Retrieve Customer by UserId. [{}]", userId);
+        return customerRepository.retrieveByUserId(userId);
+    }
+
     private CustomerResponseDTO mappingToResponse(final CustomerModel customerModel) {
         return CustomerResponseDTO.builder()
                 .customerId(customerModel.getCustomerId())
