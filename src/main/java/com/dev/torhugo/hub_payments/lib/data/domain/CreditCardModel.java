@@ -20,6 +20,7 @@ public class CreditCardModel extends BaseModel{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long creditCardId;
     private Long flagCardId;
+    private String number;
     private String cardToken;
 
 }

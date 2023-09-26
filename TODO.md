@@ -8,7 +8,7 @@ Obs.: ***Usuários*** são os cadastrados em nosso banco de dados. ***Clientes**
 
 - [x]  **FEAT 01**: Cadastro de usuários/clientes.
 - [x]  **FEAT 02**: Recuperação de usuários/clientes.
-- [ ]  **FEAT 03**: Tokenização de cartão.
+- [x]  **FEAT 03**: Tokenização de cartão.
 - [ ]  **FEAT 04**: Nova cobrança com cartão de crédito.
 - [ ]  **FEAT 05**: Recuperar cobrança pendente.
 - [ ]  **FEAT 06**: Cancelamento de cobrança pendente.

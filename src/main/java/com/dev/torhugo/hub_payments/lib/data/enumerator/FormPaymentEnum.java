@@ -10,7 +10,7 @@ import java.util.Objects;
 @Getter
 @AllArgsConstructor
 public enum FormPaymentEnum {
-    CREDIT_CARD(1L, "form.payment.name.credit_card","form.payment.description.credit_card");
+    CREDIT_CARD(1L, "CreditCard","Representation form payment of CreditCard.");
 
     private final Long formPaymentId;
     private final String nameFormPayment;

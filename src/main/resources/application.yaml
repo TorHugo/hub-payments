@@ -34,3 +34,6 @@ request:
     client:
       creat_client:
         value: /customers
+    credit_card:
+      tokenize:
+        value: /creditCard/tokenize

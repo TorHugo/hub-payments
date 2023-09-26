@@ -1,9 +1,10 @@
 package com.dev.torhugo.hub_payments.client.impl;
 
 import com.dev.torhugo.hub_payments.client.CustomerClient;
-import com.dev.torhugo.hub_payments.lib.data.dto.CustomerRequestDTO;
+import com.dev.torhugo.hub_payments.lib.data.dto.tokenize.TokenizeRequestDTO;
 import com.dev.torhugo.hub_payments.lib.data.dto.payment.PaymentRegisterCustomerRequest;
 import com.dev.torhugo.hub_payments.lib.data.dto.payment.PaymentRegisterCustomerResponse;
+import com.dev.torhugo.hub_payments.lib.data.dto.tokenize.TokenizeResponseDTO;
 import com.dev.torhugo.hub_payments.lib.exception.impl.ResourceNotFoundException;
 import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,9 @@ public class CustomerClientImpl implements CustomerClient {
     @Value("${request.endpoint.client.creat_client.value}")
     private String endpointCreateClient;
 
+    @Value("${request.endpoint.credit_card.tokenize.value}")
+    private String endpointTokenize;
+
     @Value("${access.token.value}")
     private String accessToken;
 
@@ -39,6 +43,25 @@ public class CustomerClientImpl implements CustomerClient {
             final ResponseEntity<PaymentRegisterCustomerResponse> response =
                     restTemplate.exchange(url, HttpMethod.POST,
                             createRequest(jsonRequest, createHeader(accessToken)), PaymentRegisterCustomerResponse.class);
+            return response.getBody();
+        } catch (final HttpClientErrorException.Unauthorized |
+                       HttpClientErrorException.BadRequest |
+                       HttpClientErrorException.NotFound exception) {
+            exception.printStackTrace();
+            throw new ResourceNotFoundException("exception.payment.create.client");
+        }
+    }
+
+    @Override
+    public TokenizeResponseDTO tokenize(final TokenizeRequestDTO tokenization) {
+        final String url = host.concat(endpointTokenize);
+        final String jsonRequest = gson.toJson(tokenization);
+
+        try {
+            log.info("[-] - Request to endpoint: [{}].", endpointCreateClient);
+            final ResponseEntity<TokenizeResponseDTO> response =
+                    restTemplate.exchange(url, HttpMethod.POST,
+                            createRequest(jsonRequest, createHeader(accessToken)), TokenizeResponseDTO.class);
             return response.getBody();
         } catch (final HttpClientErrorException.Unauthorized |
                        HttpClientErrorException.BadRequest |

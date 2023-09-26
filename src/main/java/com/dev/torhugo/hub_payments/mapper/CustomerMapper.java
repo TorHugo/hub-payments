@@ -1,10 +1,13 @@
 package com.dev.torhugo.hub_payments.mapper;
 
+import com.dev.torhugo.hub_payments.lib.data.domain.CreditCardModel;
 import com.dev.torhugo.hub_payments.lib.data.domain.CustomerModel;
 import com.dev.torhugo.hub_payments.lib.data.domain.UserModel;
+import com.dev.torhugo.hub_payments.lib.data.dto.CreditCardResponseDTO;
 import com.dev.torhugo.hub_payments.lib.data.dto.CustomerRequestDTO;
 import com.dev.torhugo.hub_payments.lib.data.dto.CustomerResponseDTO;
 import com.dev.torhugo.hub_payments.lib.data.dto.payment.PaymentRegisterCustomerResponse;
+import com.dev.torhugo.hub_payments.lib.data.enumerator.FlagCardEnum;
 import com.dev.torhugo.hub_payments.lib.data.enumerator.FormPaymentEnum;
 import org.springframework.stereotype.Component;
 
@@ -38,5 +41,23 @@ public class CustomerMapper {
         model.setUserId(customerDTO.userId());
         model.setInActive(Boolean.TRUE);
         return model;
+    }
+
+    public CustomerResponseDTO mappingToResponse(final CustomerModel customer,
+                                                 final CreditCardModel creditCard) {
+        return CustomerResponseDTO.builder()
+                .customerId(customer.getCustomerId())
+                .creditCardResponseDTO(CreditCardResponseDTO.builder()
+                        .creditCardId(creditCard.getCreditCardId())
+                        .flagCreditCard(FlagCardEnum.fromId(creditCard.getFlagCardId()).getNameFlagCard())
+                        .tokenCreditCard(creditCard.getCardToken())
+                        .numberCreditCard(creditCard.getNumber())
+                        .creatAt(creditCard.getCreatAt())
+                        .build())
+                .formPayment(Objects.isNull(customer.getFormPaymentId()) ? null :
+                        FormPaymentEnum.parseFromId(customer.getFormPaymentId()).getNameFormPayment())
+                .inActive(customer.getInActive())
+                .creatAt(customer.getCreatAt())
+                .build();
     }
 }
