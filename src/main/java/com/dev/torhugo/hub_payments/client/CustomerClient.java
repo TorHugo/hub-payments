@@ -1,8 +1,8 @@
 package com.dev.torhugo.hub_payments.client;
 
 import com.dev.torhugo.hub_payments.lib.data.dto.tokenize.TokenizeRequestDTO;
-import com.dev.torhugo.hub_payments.lib.data.dto.payment.PaymentRegisterCustomerRequest;
-import com.dev.torhugo.hub_payments.lib.data.dto.payment.PaymentRegisterCustomerResponse;
+import com.dev.torhugo.hub_payments.lib.data.dto.costumer.RegisterCustomerRequest;
+import com.dev.torhugo.hub_payments.lib.data.dto.costumer.RegisterCustomerResponse;
 import com.dev.torhugo.hub_payments.lib.data.dto.tokenize.TokenizeResponseDTO;
 
 public interface CustomerClient {
@@ -12,7 +12,7 @@ public interface CustomerClient {
      * @param customerDTO the customer dto
      * @return the payment register customer response
      */
-    PaymentRegisterCustomerResponse register(final PaymentRegisterCustomerRequest customerDTO);
+    RegisterCustomerResponse register(final RegisterCustomerRequest customerDTO);
 
     /**
      * Tokenize tokenize response dto.

@@ -2,8 +2,8 @@ package com.dev.torhugo.hub_payments.client.impl;
 
 import com.dev.torhugo.hub_payments.client.CustomerClient;
 import com.dev.torhugo.hub_payments.lib.data.dto.tokenize.TokenizeRequestDTO;
-import com.dev.torhugo.hub_payments.lib.data.dto.payment.PaymentRegisterCustomerRequest;
-import com.dev.torhugo.hub_payments.lib.data.dto.payment.PaymentRegisterCustomerResponse;
+import com.dev.torhugo.hub_payments.lib.data.dto.costumer.RegisterCustomerRequest;
+import com.dev.torhugo.hub_payments.lib.data.dto.costumer.RegisterCustomerResponse;
 import com.dev.torhugo.hub_payments.lib.data.dto.tokenize.TokenizeResponseDTO;
 import com.dev.torhugo.hub_payments.lib.exception.impl.ResourceNotFoundException;
 import com.google.gson.Gson;
@@ -34,15 +34,15 @@ public class CustomerClientImpl implements CustomerClient {
     @Value("${access.token.value}")
     private String accessToken;
 
-    public PaymentRegisterCustomerResponse register(final PaymentRegisterCustomerRequest request){
+    public RegisterCustomerResponse register(final RegisterCustomerRequest request){
         final String url = host.concat(endpointCreateClient);
         final String jsonRequest = gson.toJson(request);
 
         try {
             log.info("[-] - Request to endpoint: [{}].", endpointCreateClient);
-            final ResponseEntity<PaymentRegisterCustomerResponse> response =
+            final ResponseEntity<RegisterCustomerResponse> response =
                     restTemplate.exchange(url, HttpMethod.POST,
-                            createRequest(jsonRequest, createHeader(accessToken)), PaymentRegisterCustomerResponse.class);
+                            createRequest(jsonRequest, createHeader(accessToken)), RegisterCustomerResponse.class);
             return response.getBody();
         } catch (final HttpClientErrorException.Unauthorized |
                        HttpClientErrorException.BadRequest |

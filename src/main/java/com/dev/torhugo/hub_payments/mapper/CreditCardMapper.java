@@ -1,4 +1,4 @@
-package com.dev.torhugo.hub_payments.service.impl;
+package com.dev.torhugo.hub_payments.mapper;
 
 import com.dev.torhugo.hub_payments.lib.data.domain.CreditCardModel;
 import com.dev.torhugo.hub_payments.lib.data.dto.tokenize.TokenizeRequestDTO;
