@@ -17,4 +17,12 @@ public interface CreditCardRepository {
      * @return the credit card model
      */
     CreditCardModel retrieveByToken(final String token);
+
+    /**
+     * Retrieve by id credit card model.
+     *
+     * @param creditCardId the credit card id
+     * @return the credit card model
+     */
+    CreditCardModel retrieveById(final Long creditCardId);
 }

@@ -23,6 +23,8 @@ public class CreditCardRepositoryImpl implements CreditCardRepository {
     private String queryInsertCreditCard;
     @Value("${SPS.CREDIT_CARD.WHERE.TOKEN}")
     private String queryRetrieveByToken;
+    @Value("${SPS.CREDIT_CARD.WHERE.ID}")
+    private String queryRetrieveById;
 
     @Override
     public void save(final CreditCardModel creditCardModel) {
@@ -39,7 +41,18 @@ public class CreditCardRepositoryImpl implements CreditCardRepository {
                 .orElse(null);
     }
 
+    @Override
+    public CreditCardModel retrieveById(final Long creditCardId) {
+        return databaseService.retrieve(queryRetrieveById,
+                        buildParam(creditCardId),
+                        BeanPropertyRowMapper.newInstance(CreditCardModel.class))
+                .orElse(null);
+    }
+
     private MapSqlParameterSource buildParam(final String token) {
         return new MapSqlParameterSource("token", token);
+    }
+    private MapSqlParameterSource buildParam(final Long creditCardId) {
+        return new MapSqlParameterSource("creditCardId", creditCardId);
     }
 }
