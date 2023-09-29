@@ -6,7 +6,7 @@ import com.dev.torhugo.hub_payments.lib.data.domain.UserModel;
 import com.dev.torhugo.hub_payments.lib.data.dto.CreditCardResponseDTO;
 import com.dev.torhugo.hub_payments.lib.data.dto.CustomerRequestDTO;
 import com.dev.torhugo.hub_payments.lib.data.dto.CustomerResponseDTO;
-import com.dev.torhugo.hub_payments.lib.data.dto.costumer.RegisterCustomerResponse;
+import com.dev.torhugo.hub_payments.lib.data.dto.costumer.RegisterCustomerResponseDTO;
 import com.dev.torhugo.hub_payments.lib.data.enumerator.FlagCardEnum;
 import com.dev.torhugo.hub_payments.lib.data.enumerator.FormPaymentEnum;
 import org.springframework.stereotype.Component;
@@ -34,7 +34,7 @@ public class CustomerMapper {
                 .build();
     }
 
-    public CustomerModel mappingToModel(final RegisterCustomerResponse savedClient,
+    public CustomerModel mappingToModel(final RegisterCustomerResponseDTO savedClient,
                                         final CustomerRequestDTO customerDTO) {
         CustomerModel model = new CustomerModel();
         model.setCustomerId(savedClient.id());

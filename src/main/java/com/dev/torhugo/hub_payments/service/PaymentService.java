@@ -1,7 +1,7 @@
 package com.dev.torhugo.hub_payments.service;
 
-import com.dev.torhugo.hub_payments.lib.data.dto.payment.PaymentRequest;
-import com.dev.torhugo.hub_payments.lib.data.dto.payment.PaymentResponse;
+import com.dev.torhugo.hub_payments.lib.data.dto.payment.PaymentRequestDTO;
+import com.dev.torhugo.hub_payments.lib.data.dto.payment.PaymentResponseDTO;
 
 public interface PaymentService {
 
@@ -14,5 +14,5 @@ public interface PaymentService {
      * @param paymentRequest object entry.
      * @return undefined
      */
-    PaymentResponse createPayment(final PaymentRequest paymentRequest);
+    PaymentResponseDTO createPayment(final PaymentRequestDTO paymentRequest);
 }

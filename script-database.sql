@@ -67,6 +67,17 @@ CREATE TABLE customer_tb (
 	update_at 		TIMESTAMP
 );
 
+CREATE TABLE payment_tb (
+	payment_id		VARCHAR(500) NOT NULL,
+	date_created	DATE,
+	value			FLOAT NOT NULL,
+	description		VARCHAR(500),
+	due_date		DATE NOT NULL,
+	form_payment_id	INT,
+	status			VARCHAR(50) NOT NULL,
+)
+
+
 ALTER TABLE ONLY user_tb
 	ADD CONSTRAINT pk_user_tb PRIMARY KEY (user_id);
 	

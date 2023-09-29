@@ -12,16 +12,18 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Builder
-public record PaymentRequest(
+public record PaymentRequestDTO(
         String customer,
-        @JsonProperty("billing-type")
+        @JsonProperty("billing_type")
         String billingType,
         BigDecimal value,
-        @JsonProperty("due-date")
+        @JsonProperty("due_date")
         LocalDate dueDate,
         String description,
-        @JsonProperty("external-reference")
+        @JsonProperty("external_reference")
         String externalReference,
+        @JsonProperty("credit_card_token")
+        String creditCardToken,
         @JsonProperty("credit_card")
         CreditCardDTO creditCard,
         @JsonProperty("credit_card_holder_info")

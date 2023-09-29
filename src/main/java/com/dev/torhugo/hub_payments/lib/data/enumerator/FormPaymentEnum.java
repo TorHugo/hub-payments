@@ -10,7 +10,7 @@ import java.util.Objects;
 @Getter
 @AllArgsConstructor
 public enum FormPaymentEnum {
-    CREDIT_CARD(1L, "CreditCard","Representation form payment of CreditCard.");
+    CREDIT_CARD(1L, "CREDIT_CARD","Representation form payment of CreditCard.");
 
     private final Long formPaymentId;
     private final String nameFormPayment;
@@ -21,7 +21,7 @@ public enum FormPaymentEnum {
                 .findFirst().orElseThrow(() -> new DataBaseException("Entity not found! ", formPaymentId));
     }
 
-    public FormPaymentEnum parseFromName(final String nameFormPayment){
+    public static FormPaymentEnum parseFromName(final String nameFormPayment){
         return Arrays.stream(values()).filter(name -> Objects.equals(name.nameFormPayment, nameFormPayment))
                 .findFirst().orElseThrow(() -> new DataBaseException("Entity not found! ", nameFormPayment));
     }

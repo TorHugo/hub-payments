@@ -5,7 +5,7 @@ import lombok.Builder;
 import java.time.LocalDate;
 
 @Builder
-public record RegisterCustomerResponse(
+public record RegisterCustomerResponseDTO(
         String object,
         String id,
         LocalDate dateCreated,

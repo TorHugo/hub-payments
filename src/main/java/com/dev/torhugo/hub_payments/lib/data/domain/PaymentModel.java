@@ -23,7 +23,9 @@ public class PaymentModel extends BaseModel{
     private String paymentId;
     private String customerId;
     private BigDecimal value;
+    private String status;
     private String description;
-    private LocalDate firstDueDate;
+    private LocalDate dueDate;
+    private LocalDate dateCreated;
     private Long formPaymentId;
 }

@@ -37,3 +37,5 @@ request:
     credit_card:
       tokenize:
         value: /creditCard/tokenize
+    payment:
+      value: /payments

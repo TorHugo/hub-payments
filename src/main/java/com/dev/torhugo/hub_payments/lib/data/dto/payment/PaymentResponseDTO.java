@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Builder
-public record PaymentResponse(
+public record PaymentResponseDTO(
         @JsonProperty("payment_id")
         String paymentId,
         @JsonProperty("date_created")
@@ -15,6 +15,8 @@ public record PaymentResponse(
         @JsonProperty("customer_id")
         String customerId,
         BigDecimal value,
+        @JsonProperty("due_date")
+        LocalDate dueDate,
         @JsonProperty("billing_type")
         String billingType,
         String status,

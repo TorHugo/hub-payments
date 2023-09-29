@@ -1,7 +1,7 @@
 package com.dev.torhugo.hub_payments.resource;
 
-import com.dev.torhugo.hub_payments.lib.data.dto.payment.PaymentRequest;
-import com.dev.torhugo.hub_payments.lib.data.dto.payment.PaymentResponse;
+import com.dev.torhugo.hub_payments.lib.data.dto.payment.PaymentRequestDTO;
+import com.dev.torhugo.hub_payments.lib.data.dto.payment.PaymentResponseDTO;
 import com.dev.torhugo.hub_payments.service.PaymentService;
 import com.dev.torhugo.hub_payments.util.HubResource;
 import com.dev.torhugo.hub_payments.util.HubResponse;
@@ -20,8 +20,8 @@ public class PaymentController implements HubResource {
     private final PaymentService paymentService;
 
     @PostMapping
-    public ResponseEntity<HubResponse<PaymentResponse>> createPayment(
-            @RequestBody final PaymentRequest paymentRequest
+    public ResponseEntity<HubResponse<PaymentResponseDTO>> createPayment(
+            @RequestBody final PaymentRequestDTO paymentRequest
     ) {
         return returnSuccess(paymentService.createPayment(paymentRequest));
     }
