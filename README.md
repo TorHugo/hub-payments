@@ -18,10 +18,10 @@ O projeto Hub-Payments é uma plataforma que permite realizar transações finan
 ```http
   POST /api/v1/store
 ```
-| Parâmetro   | Tipo       | Descrição                           | 
-| :---------- | :--------- | :---------------------------------- | 
-| `email` | `string` | **Obrigatório**. Email para cadastro da loja. | 
-| `password` | `string` | **Obrigatório**. Senha para cadastro da loja. | 
+| Parâmetro     | Tipo     | Descrição                                           | 
+|:--------------|:---------|:----------------------------------------------------| 
+| `email`       | `string` | **Obrigatório**. Email para cadastro da loja.       | 
+| `password`    | `string` | **Obrigatório**. Senha para cadastro da loja.       | 
 | `cpf_or_cnpj` | `string` | **Obrigatório**. Cpf ou Cnpj para cadastro da loja. | 
 
 
@@ -29,69 +29,69 @@ O projeto Hub-Payments é uma plataforma que permite realizar transações finan
 ```http 
   POST /api/v1/user/register 
 ``` 
-| Parâmetro       | Tipo     | Descrição                                            | 
-| :-------------- | :------- | :--------------------------------------------------- | 
-| `email`         | `string` | **Obrigatório**. Email para cadastro de cliente.    | 
-| `store_id`      | `long`   | **Obrigatório**. ID da loja associada a este cliente.| 
-| `cpf_or_cnpj`   | `string` | **Obrigatório**. CPF ou CNPJ para cadastro do cliente.| 
-| `first_name`    | `string` | **Obrigatório**. Primeiro nome do cliente.           | 
-| `last_name`     | `string` | **Obrigatório**. Último nome do cliente.            | 
-| `phone`         | `string` | **Obrigatório**. Telefone para contato do cliente.   | 
+| Parâmetro     | Tipo     | Descrição                                              | 
+|:--------------|:---------|:-------------------------------------------------------| 
+| `email`       | `string` | **Obrigatório**. Email para cadastro de cliente.       | 
+| `store_id`    | `long`   | **Obrigatório**. ID da loja associada a este cliente.  | 
+| `cpf_or_cnpj` | `string` | **Obrigatório**. CPF ou CNPJ para cadastro do cliente. | 
+| `first_name`  | `string` | **Obrigatório**. Primeiro nome do cliente.             | 
+| `last_name`   | `string` | **Obrigatório**. Último nome do cliente.               | 
+| `phone`       | `string` | **Obrigatório**. Telefone para contato do cliente.     | 
 
 ```http 
   GET/api/v1/user/retrieve/{store_id} ?{email} 
 ``` 
-| Parâmetro       | Tipo     | Descrição                                            | 
-| :-------------- | :------- | :--------------------------------------------------- | 
-| ` store_id `         | `long` | **Obrigatório**. ID da loja associada a este cliente.    | 
-| `email`      | `string`   | **Obrigatório**. Email do usuário há ser recuperado.| 
+| Parâmetro    | Tipo     | Descrição                                             | 
+|:-------------|:---------|:------------------------------------------------------| 
+| ` store_id ` | `long`   | **Obrigatório**. ID da loja associada a este cliente. | 
+| `email`      | `string` | **Obrigatório**. Email do usuário há ser recuperado.  | 
 
 ### CUSTOMER.
 ```http 
   POST /api/v1/customer/credit-token 
 ``` 
-| Parâmetro               | Tipo     | Descrição                                          | 
-| :---------------------- | :------- | :------------------------------------------------- | 
-| `customer`              | `string` | **Obrigatório**. ID do cliente.                   | 
-| `creditCard`            | `object` | **Obrigatório**. Informações do cartão de crédito.| 
-| `creditCard.holderName` | `string` | **Obrigatório**. Nome do titular do cartão de crédito.| 
-| `creditCard.number`     | `string` | **Obrigatório**. Número do cartão de crédito.     | 
-| `creditCard.expiryMonth`| `string` | **Obrigatório**. Mês de validade do cartão de crédito.| 
-| `creditCard.expiryYear` | `string` | **Obrigatório**. Ano de validade do cartão de crédito.| 
-| `creditCard.ccv`        | `string` | **Obrigatório**. Código de segurança do cartão de crédito.| 
-| `creditCardHolderInfo`  | `object` | **Obrigatório**. Informações do titular do cartão.| 
-| `creditCardHolderInfo.name` | `string` | **Obrigatório**. Nome do titular do cartão.      | 
-| `creditCardHolderInfo.email`| `string` | **Obrigatório**. Email do titular do cartão.     | 
-| `creditCardHolderInfo.cpfCnpj`| `string` | **Obrigatório**. CPF ou CNPJ do titular do cartão.| 
-| `creditCardHolderInfo.postalCode`| `string` | CEP do endereço do titular do cartão.          | 
-| `creditCardHolderInfo.addressNumber`| `string` | Número do endereço do titular do cartão.   | 
-| `creditCardHolderInfo.phone` | `string` | **Obrigatório**. Telefone de contato do titular do cartão.| 
+| Parâmetro                            | Tipo     | Descrição                                                  | 
+|:-------------------------------------|:---------|:-----------------------------------------------------------| 
+| `customer`                           | `string` | **Obrigatório**. ID do cliente.                            | 
+| `creditCard`                         | `object` | **Obrigatório**. Informações do cartão de crédito.         | 
+| `creditCard.holderName`              | `string` | **Obrigatório**. Nome do titular do cartão de crédito.     | 
+| `creditCard.number`                  | `string` | **Obrigatório**. Número do cartão de crédito.              | 
+| `creditCard.expiryMonth`             | `string` | **Obrigatório**. Mês de validade do cartão de crédito.     | 
+| `creditCard.expiryYear`              | `string` | **Obrigatório**. Ano de validade do cartão de crédito.     | 
+| `creditCard.ccv`                     | `string` | **Obrigatório**. Código de segurança do cartão de crédito. | 
+| `creditCardHolderInfo`               | `object` | **Obrigatório**. Informações do titular do cartão.         | 
+| `creditCardHolderInfo.name`          | `string` | **Obrigatório**. Nome do titular do cartão.                | 
+| `creditCardHolderInfo.email`         | `string` | **Obrigatório**. Email do titular do cartão.               | 
+| `creditCardHolderInfo.cpfCnpj`       | `string` | **Obrigatório**. CPF ou CNPJ do titular do cartão.         | 
+| `creditCardHolderInfo.postalCode`    | `string` | CEP do endereço do titular do cartão.                      | 
+| `creditCardHolderInfo.addressNumber` | `string` | Número do endereço do titular do cartão.                   | 
+| `creditCardHolderInfo.phone`         | `string` | **Obrigatório**. Telefone de contato do titular do cartão. | 
  
 ### SIMULATION.
 ```http 
   GET /api/v1/simulation 
 ``` 
-| Parâmetro            | Tipo     | Descrição                                          | 
-| :------------------- | :------- | :------------------------------------------------- | 
-| `total_value`        | `float`  | **Obrigatório**. Valor total da transação.        | 
-| `installment_count`  | `int`    | **Obrigatório**. Número de parcelas da transação. | 
-| `date_due`           | `string` | **Obrigatório**. Data de vencimento das parcelas. | 
-| `first_installment`  | `boolean`| Indica se é a primeira parcela (true/false).      | 
+| Parâmetro           | Tipo      | Descrição                                         | 
+|:--------------------|:----------|:--------------------------------------------------| 
+| `total_value`       | `float`   | **Obrigatório**. Valor total da transação.        | 
+| `installment_count` | `int`     | **Obrigatório**. Número de parcelas da transação. | 
+| `date_due`          | `string`  | **Obrigatório**. Data de vencimento das parcelas. | 
+| `first_installment` | `boolean` | Indica se é a primeira parcela (true/false).      | 
 
 ### PAYMENT.
 ```http 
   POST /api/v1/payment 
 ``` 
-| Parâmetro             | Tipo     | Descrição                                            | 
-| :-------------------- | :------- | :--------------------------------------------------- | 
-| `customer`            | `string` | **Obrigatório**. ID do cliente.                     | 
-| `store_id`            | `long`   | **Obrigatório**. ID da loja associada a este cliente.| 
-| `billing_type`        | `string` | **Obrigatório**. Tipo de cobrança (ex: "CREDIT_CARD").| 
-| `value`               | `float`  | **Obrigatório**. Valor da transação.                | 
-| `due_date`            | `string` | **Obrigatório**. Data de vencimento da transação.   | 
-| `description`         | `string` | Descrição da transação.                             | 
-| `external_reference`  | `string` | Referência externa associada à transação.            | 
-| `credit_card_token`   | `string` | Token do cartão de crédito associado à transação.   | 
+| Parâmetro            | Tipo     | Descrição                                              | 
+|:---------------------|:---------|:-------------------------------------------------------| 
+| `customer`           | `string` | **Obrigatório**. ID do cliente.                        | 
+| `store_id`           | `long`   | **Obrigatório**. ID da loja associada a este cliente.  | 
+| `billing_type`       | `string` | **Obrigatório**. Tipo de cobrança (ex: "CREDIT_CARD"). | 
+| `value`              | `float`  | **Obrigatório**. Valor da transação.                   | 
+| `due_date`           | `string` | **Obrigatório**. Data de vencimento da transação.      | 
+| `description`        | `string` | Descrição da transação.                                | 
+| `external_reference` | `string` | Referência externa associada à transação.              | 
+| `credit_card_token`  | `string` | Token do cartão de crédito associado à transação.      | 
 
 ## 🚧 FEATURES 🚧: 
 ### LOJA: 
