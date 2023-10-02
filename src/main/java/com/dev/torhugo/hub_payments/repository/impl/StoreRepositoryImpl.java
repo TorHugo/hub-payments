@@ -27,10 +27,11 @@ public class StoreRepositoryImpl implements StoreRepository {
     private String queryPersistStore;
 
     @Override
-    public Optional<StoreModel> retrieveByCpfCnpj(final String cpfOrCnpj) {
+    public StoreModel retrieveByCpfCnpj(final String cpfOrCnpj) {
         return databaseService.retrieve(queryRetrieveByCpfOrCnpj,
                                         buildParam(cpfOrCnpj),
-                                        BeanPropertyRowMapper.newInstance(StoreModel.class));
+                                        BeanPropertyRowMapper.newInstance(StoreModel.class))
+                .orElse(null);
     }
 
     @Override

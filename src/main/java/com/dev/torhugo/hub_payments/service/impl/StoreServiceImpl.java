@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -34,13 +36,25 @@ public class StoreServiceImpl implements StoreService {
         return mappingToResponse(retrieveNewStore);
     }
 
+    @Override
+    public StoreResponseDTO retrieveById(final Long storeId) {
+        log.info("[1] - Retrieve Store by StoreId: [{}].", storeId);
+        final StoreModel storeModel = retrieveStoreById(storeId);
+        log.info("[2] - Mapping to response.");
+        return mappingToResponse(storeModel);
+    }
+
+    private StoreModel retrieveStoreById(final Long storeId) {
+        return storeRepository.retrieveById(storeId);
+    }
+
     private StoreResponseDTO mappingToResponse(final StoreModel retrieveNewStore) {
         return storeMapper.mapperToResponse(retrieveNewStore);
     }
 
     private StoreModel saving(final StoreModel newStore) {
         storeRepository.insert(newStore);
-        return storeRepository.retrieveByCpfCnpj(newStore.getCpfOrCnpj()).orElse(null);
+        return storeRepository.retrieveByCpfCnpj(newStore.getCpfOrCnpj());
     }
 
     private StoreModel mappingToModel(final StoreRequestDTO store) {
@@ -48,6 +62,6 @@ public class StoreServiceImpl implements StoreService {
     }
 
     private boolean retrieveStoreByCpfCnpj(final String cpfOrCnpj) {
-        return storeRepository.retrieveByCpfCnpj(cpfOrCnpj).isPresent();
+        return Objects.nonNull(storeRepository.retrieveByCpfCnpj(cpfOrCnpj)) ? Boolean.TRUE : Boolean.FALSE;
     }
 }

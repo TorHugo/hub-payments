@@ -24,6 +24,12 @@ O projeto Hub-Payments é uma plataforma que permite realizar transações finan
 | `password`    | `string` | **Obrigatório**. Senha para cadastro da loja.       | 
 | `cpf_or_cnpj` | `string` | **Obrigatório**. Cpf ou Cnpj para cadastro da loja. | 
 
+```http
+  GET /api/v1/store/retrieve/{store_id}
+```
+| Parâmetro    | Tipo   | Descrição                    | 
+|:-------------|:-------|:-----------------------------| 
+| ` store_id ` | `long` | **Obrigatório**. ID da LOJA. |
 
 ### USER. 
 ```http 

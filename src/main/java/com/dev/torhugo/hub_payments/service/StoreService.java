@@ -12,4 +12,12 @@ public interface StoreService {
      * @return the store response dto
      */
     StoreResponseDTO createStore(final StoreRequestDTO store);
+
+    /**
+     * Retrieve by id store response dto.
+     *
+     * @param storeId the store id
+     * @return the store response dto
+     */
+    StoreResponseDTO retrieveById(final Long storeId);
 }

@@ -15,7 +15,7 @@ public interface StoreRepository {
      * @param cpfOrCnpj the cpf or cnpj
      * @return the store model
      */
-    Optional<StoreModel> retrieveByCpfCnpj(final String cpfOrCnpj);
+    StoreModel retrieveByCpfCnpj(final String cpfOrCnpj);
 
     /**
      * Insert.

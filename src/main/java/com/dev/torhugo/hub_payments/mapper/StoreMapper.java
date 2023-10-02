@@ -10,6 +10,10 @@ import static com.dev.torhugo.hub_payments.util.GenericUtil.genericHost;
 
 @Component
 public class StoreMapper {
+
+    private static final String HOST_URL = "http://localhost:8080/api";
+    private static final String PATH_URL = "/v1/store/retrieve/";
+
     public StoreModel mapperToModel(final StoreRequestDTO store) {
         return StoreModel.builder()
                 .cpfOrCnpj(store.cpfOrCnpj())
@@ -25,12 +29,16 @@ public class StoreMapper {
                 .cpfOrCnpj(model.getCpfOrCnpj())
                 .link(LinkResponseDTO.builder()
                         .method("[GET]")
-                        .href("")
+                        .href(buildHref(model.getStoreId()))
                         .build())
                 .build();
     }
 
     private String buildHref(final Long storeId){
-        return genericHost("", "");
+        return genericHost(HOST_URL, buildPath(storeId));
+    }
+
+    private String buildPath(final Long storeId) {
+        return PATH_URL.concat(String.valueOf(storeId));
     }
 }
