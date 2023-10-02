@@ -33,8 +33,8 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserResponseDTO register(final UserRequestDTO user) {
-        log.info("[1] - Validating exists user to database. Email: [{}].", user.email());
-        final UserModel retrieveUser = retrieveUserByEmail(user.email());
+        log.info("[1] - Validating exists user ({}) to database for store ({}).", user.email(), user.storeId());
+        final UserModel retrieveUser = retrieveUserByEmailAndStore(user.email(), user.storeId());
         if (Objects.nonNull(retrieveUser)){
             log.info("[2] - User exists. Return to response.");
             log.info("[3] - Retrieve customer in the database.");
@@ -52,15 +52,16 @@ public class UserServiceImpl implements UserService {
         log.info("[5] - Mapping to response.");
         return userMapper.modelToResponse(userModel, userId, customerResponse);
     }
-
     @Override
-    public UserResponseDTO retrieveById(final Long userId) {
-        log.info("[1] - Retrieve user by id. [{}]", userId);
-        final UserModel userModel = findById(userId);
+    @Transactional
+    public UserResponseDTO retrieveByStoreIdAndUserId(final Long storeId,
+                                                      final String email) {
+        log.info("[1] - Retrieve user by: storeId({}) and userEmail({}).", storeId, email);
+        final UserModel userModel = findById(storeId, email);
         log.info("[2] - Retrieve customer by userId.");
-        final CustomerModel customerModel = findCustomerById(userId);
+        final CustomerModel customerModel = findCustomerById(userModel.getUserId());
         log.info("[3] - Mapping to response.");
-        return mappingResponse(userModel, userId, customerModel);
+        return mappingResponse(userModel, userModel.getUserId(), customerModel);
     }
 
     private UserResponseDTO mappingResponse(final UserModel userModel,
@@ -75,17 +76,18 @@ public class UserServiceImpl implements UserService {
         return customerService.retrieveByUserId(userId);
     }
 
-    private UserModel findById(final Long userId) {
-        return userRepository.retrieveById(userId);
+    private UserModel findById(final Long storeId, final String email) {
+        return userRepository.retrieveByEmail(email, storeId);
     }
 
     private Long savedUser(final UserModel userModel){
         userRepository.save(userModel);
-        return retrieveUserByEmail(userModel.getEmail()).getUserId();
+        return retrieveUserByEmailAndStore(userModel.getEmail(), userModel.getStoreId()).getUserId();
     }
 
-    private UserModel retrieveUserByEmail(final String email){
-        return userRepository.retrieveByEmail(email);
+    private UserModel retrieveUserByEmailAndStore(final String email,
+                                                  final Long storeId){
+        return userRepository.retrieveByEmail(email, storeId);
     }
 
     private CustomerRequestDTO mappingCustomerFromUser(final UserModel userModel, final Long userId){

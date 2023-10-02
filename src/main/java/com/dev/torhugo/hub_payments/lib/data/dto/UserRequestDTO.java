@@ -4,7 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public record UserRequestDTO(
         String email,
-        String password,
+        @JsonProperty("store_id")
+        Long storeId,
         @JsonProperty("cpf_or_cnpj")
         String cpfOrCnpj,
         @JsonProperty("first_name")

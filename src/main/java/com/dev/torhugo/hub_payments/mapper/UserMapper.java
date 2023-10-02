@@ -11,7 +11,7 @@ public class UserMapper {
     public UserModel requestToModel(final UserRequestDTO user) {
         UserModel userModel = new UserModel();
         userModel.setEmail(user.email());
-        userModel.setPassword(user.password());
+        userModel.setStoreId(user.storeId());
         userModel.setCpfOrCnpj(user.cpfOrCnpj());
         userModel.setFirstName(user.firstName());
         userModel.setLastName(user.lastName());
@@ -25,6 +25,7 @@ public class UserMapper {
         return UserResponseDTO.builder()
                 .userId(userId)
                 .email(userModel.getEmail())
+                .storeId(userModel.getStoreId())
                 .cpfOrCnpj(userModel.getCpfOrCnpj())
                 .firstName(userModel.getFirstName())
                 .lastName(userModel.getLastName())

@@ -14,6 +14,8 @@ import java.time.LocalDate;
 @Builder
 public record PaymentRequestDTO(
         String customer,
+        @JsonProperty("store_id")
+        Long storeId,
         @JsonProperty("billing_type")
         String billingType,
         BigDecimal value,

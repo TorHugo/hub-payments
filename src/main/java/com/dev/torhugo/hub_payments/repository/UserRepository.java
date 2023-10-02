@@ -9,7 +9,8 @@ public interface UserRepository {
      * @param email the email
      * @return the user model
      */
-    UserModel retrieveByEmail(final String email);
+    UserModel retrieveByEmail(final String email,
+                              final Long storeId);
 
     /**
      * Save.
@@ -17,12 +18,4 @@ public interface UserRepository {
      * @param userModel the user model
      */
     void save(final UserModel userModel);
-
-    /**
-     * Retrieve by id user model.
-     *
-     * @param userId the user id
-     * @return the user model
-     */
-    UserModel retrieveById(final Long userId);
 }

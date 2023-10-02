@@ -53,12 +53,14 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    @Transactional
     public CustomerModel retrieveByUserId(final Long userId) {
         log.info("[1] - Retrieve Customer by UserId. [{}]", userId);
         return customerRepository.retrieveByUserId(userId);
     }
 
     @Override
+    @Transactional
     public CustomerResponseDTO tokenization(final TokenizeRequestDTO tokenization) {
         log.info("[1] - Validating customer in the database. customerId: [{}].", tokenization.customer());
         final CustomerModel customerModel =

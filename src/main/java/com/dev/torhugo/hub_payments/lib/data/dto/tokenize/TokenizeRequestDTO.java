@@ -7,6 +7,7 @@ import lombok.Builder;
 @Builder
 public record TokenizeRequestDTO(
         String customer,
+        Long storeId,
         CreditCardDTO creditCard,
         CreditCardHolderInfoDTO creditCardHolderInfo
 ) {

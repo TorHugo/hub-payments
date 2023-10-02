@@ -22,11 +22,11 @@ public class UserController implements HubResource {
         return returnSuccess(userService.register(user));
     }
 
-    @CrossOrigin(origins = "http://localhost:5500")
-    @GetMapping("/retrieve/{userId}")
+    @GetMapping("/retrieve/{storeId}")
     public ResponseEntity<HubResponse<UserResponseDTO>> retrieveToUser(
-            @PathVariable final Long userId
+            @PathVariable final Long storeId,
+            @RequestParam(value = "email") final String email
     ) {
-        return returnSuccess(userService.retrieveById(userId));
+        return returnSuccess(userService.retrieveByStoreIdAndUserId(storeId, email));
     }
 }

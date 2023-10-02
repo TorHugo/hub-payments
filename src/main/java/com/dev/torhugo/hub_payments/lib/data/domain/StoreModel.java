@@ -1,6 +1,10 @@
 package com.dev.torhugo.hub_payments.lib.data.domain;
 
-import jakarta.persistence.*;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,22 +16,13 @@ import org.springframework.data.relational.core.mapping.Table;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "user_tb")
-public class UserModel extends BaseModel{
+@Table(name = "store_tb")
+public class StoreModel extends BaseModel{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
-    private Long userId;
     private Long storeId;
     private String email;
+    private String password;
     private String cpfOrCnpj;
-
-    private String firstName;
-    private String lastName;
-    private String phone;
-
-    public String getName() {
-        return firstName.concat(" ").concat(lastName);
-    }
 }

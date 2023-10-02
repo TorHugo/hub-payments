@@ -17,10 +17,12 @@ public interface UserService {
     UserResponseDTO register(final UserRequestDTO user);
 
     /**
-     * Retrieve by id user response dto.
+     * Retrieve by store id and user id user response dto.
      *
-     * @param userId the user id
+     * @param storeId the store id
+     * @param userId  the user id
      * @return the user response dto
      */
-    UserResponseDTO retrieveById(final Long userId);
+    UserResponseDTO retrieveByStoreIdAndUserId(final Long storeId,
+                                               final String userId);
 }

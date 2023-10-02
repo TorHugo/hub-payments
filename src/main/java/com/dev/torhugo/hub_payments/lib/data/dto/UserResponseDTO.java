@@ -8,6 +8,8 @@ public record UserResponseDTO(
         @JsonProperty("user_id")
         Long userId,
         String email,
+        @JsonProperty("store_id")
+        Long storeId,
         @JsonProperty("cpf_or_cnpj")
         String cpfOrCnpj,
         @JsonProperty("first_name")

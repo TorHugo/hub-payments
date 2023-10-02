@@ -13,6 +13,8 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Repository;
 
+import java.util.Objects;
+
 @Repository
 @PropertySource("classpath:query/user.properties")
 @RequiredArgsConstructor
@@ -31,9 +33,10 @@ public class UserRepositoryImpl implements UserRepository {
     private String queryInsertUser;
 
     @Override
-    public UserModel retrieveByEmail(final String email) {
+    public UserModel retrieveByEmail(final String email,
+                                     final Long storeId) {
         return databaseService.retrieve(queryRetrieveByEmail,
-                buildParam(email),
+                buildParam(email, storeId),
                 BeanPropertyRowMapper.newInstance(UserModel.class))
                 .orElse(null);
     }
@@ -43,18 +46,11 @@ public class UserRepositoryImpl implements UserRepository {
         databaseService.persist(queryInsertUser, userModel);
     }
 
-    @Override
-    public UserModel retrieveById(final Long userId) {
-        return databaseService.retrieve(queryRetrieveById,
-                buildParam(userId),
-                BeanPropertyRowMapper.newInstance(UserModel.class))
-                .orElseThrow(() -> new DataBaseException("Entity not found!", userId));
-    }
-
-    private MapSqlParameterSource buildParam(final String email) {
-        return new MapSqlParameterSource("email", email);
-    }
-    private MapSqlParameterSource buildParam(final Long userId){
-        return new MapSqlParameterSource("userId", userId);
+    private MapSqlParameterSource buildParam(final String email,
+                                             final Long storeId) {
+        MapSqlParameterSource parameter = new MapSqlParameterSource();
+        parameter.addValue("storeId", storeId);
+        parameter.addValue("email", email);
+        return parameter;
     }
 }

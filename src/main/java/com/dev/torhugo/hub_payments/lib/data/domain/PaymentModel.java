@@ -22,6 +22,8 @@ public class PaymentModel extends BaseModel{
     @Id
     private String paymentId;
     private String customerId;
+    private Long storeId;
+    private String externalReference;
     private BigDecimal value;
     private String status;
     private String description;

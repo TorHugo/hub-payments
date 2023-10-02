@@ -14,6 +14,10 @@ public record PaymentResponseDTO(
         LocalDate dateCreated,
         @JsonProperty("customer_id")
         String customerId,
+        @JsonProperty("store_id")
+        Long storeId,
+        @JsonProperty("external_reference")
+        String externalReference,
         BigDecimal value,
         @JsonProperty("due_date")
         LocalDate dueDate,
