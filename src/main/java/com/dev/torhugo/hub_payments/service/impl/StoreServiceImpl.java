@@ -40,7 +40,10 @@ public class StoreServiceImpl implements StoreService {
     public StoreResponseDTO retrieveById(final Long storeId) {
         log.info("[1] - Retrieve Store by StoreId: [{}].", storeId);
         final StoreModel storeModel = retrieveStoreById(storeId);
-        log.info("[2] - Mapping to response.");
+        log.info("[2] - Validating exists Store.");
+        if (Objects.isNull(storeModel))
+            throw new DataBaseException("Store not found!. StoreId: ", storeId);
+        log.info("[3] - Mapping to response.");
         return mappingToResponse(storeModel);
     }
 
