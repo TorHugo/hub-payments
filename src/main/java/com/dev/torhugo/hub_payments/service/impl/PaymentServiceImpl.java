@@ -71,6 +71,20 @@ public class PaymentServiceImpl implements PaymentService {
         return mappingToResponse(paymentModel);
     }
 
+    @Override
+    public PaymentResponseDTO retrieveById(final String paymentId) {
+        log.info("[1] - Retrieve payment by PaymentId: [{}].", paymentId);
+        final PaymentModel retrievePayment = retrievePayment(paymentId);
+        if (Objects.isNull(retrievePayment))
+            throw new DataBaseException("Payment not found!.", paymentId);
+        log.info("[2] - Mapping to response.");
+        return mappingToResponse(retrievePayment);
+    }
+
+    private PaymentModel retrievePayment(final String paymentId) {
+        return paymentRepository.retrieveById(paymentId);
+    }
+
     private StoreModel retrieveStore(final PaymentRequestDTO request) {
         return paymentRepository
                 .validatingExistsPayment(request.storeId(), request.customer(), request.value(), request.externalReference());

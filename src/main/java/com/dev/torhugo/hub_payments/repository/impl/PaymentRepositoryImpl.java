@@ -24,6 +24,9 @@ public class PaymentRepositoryImpl implements PaymentRepository {
     @Value("${SPS.PAYMENT.WHERE.STORE_ID.AND.CUSTOMER_ID.AND.VALUE.AND.EXTERNAL_REFERENCE}")
     private String queryValidatingExistsPayment;
 
+    @Value("${SPS.PAYMENT.WHERE.PAYMENT_ID}")
+    private String queryRetrievePaymentById;
+
     private final DatabaseService databaseService;
     @Override
     public void insert(final PaymentModel paymentModel) {
@@ -39,6 +42,18 @@ public class PaymentRepositoryImpl implements PaymentRepository {
                 buildParam(storeId, customer, value, externalReference),
                 BeanPropertyRowMapper.newInstance(StoreModel.class))
                 .orElse(null);
+    }
+
+    @Override
+    public PaymentModel retrieveById(final String paymentId) {
+        return databaseService.retrieve(queryRetrievePaymentById,
+                buildParam(paymentId),
+                BeanPropertyRowMapper.newInstance(PaymentModel.class))
+                .orElse(null);
+    }
+
+    private MapSqlParameterSource buildParam(final String paymentId) {
+        return new MapSqlParameterSource("paymentId", paymentId);
     }
 
     private MapSqlParameterSource buildParam(final Long storeId,

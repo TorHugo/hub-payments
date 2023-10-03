@@ -27,4 +27,12 @@ public interface PaymentRepository {
                                        final String customer,
                                        final BigDecimal value,
                                        final String externalReference);
+
+    /**
+     * Retrieve by id payment model.
+     *
+     * @param paymentId the payment id
+     * @return the payment model
+     */
+    PaymentModel retrieveById(final String paymentId);
 }

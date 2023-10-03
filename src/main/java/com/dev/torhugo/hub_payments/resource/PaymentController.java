@@ -7,10 +7,7 @@ import com.dev.torhugo.hub_payments.util.HubResource;
 import com.dev.torhugo.hub_payments.util.HubResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/payment")
@@ -24,5 +21,12 @@ public class PaymentController implements HubResource {
             @RequestBody final PaymentRequestDTO paymentRequest
     ) {
         return returnSuccess(paymentService.createPayment(paymentRequest));
+    }
+
+    @GetMapping("/retrieve/{paymentId}")
+    public ResponseEntity<HubResponse<PaymentResponseDTO>> retrievePayment(
+            @PathVariable final String paymentId
+    ){
+        return returnSuccess(paymentService.retrieveById(paymentId));
     }
 }

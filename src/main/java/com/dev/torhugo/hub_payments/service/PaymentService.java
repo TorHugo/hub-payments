@@ -3,6 +3,9 @@ package com.dev.torhugo.hub_payments.service;
 import com.dev.torhugo.hub_payments.lib.data.dto.payment.PaymentRequestDTO;
 import com.dev.torhugo.hub_payments.lib.data.dto.payment.PaymentResponseDTO;
 
+/**
+ * The interface Payment service.
+ */
 public interface PaymentService {
 
     /**
@@ -12,7 +15,15 @@ public interface PaymentService {
      * the database and also process the charge via card token.
      *
      * @param paymentRequest object entry.
-     * @return undefined
+     * @return {@link PaymentResponseDTO}
      */
     PaymentResponseDTO createPayment(final PaymentRequestDTO paymentRequest);
+
+    /**
+     * Retrieve by id payment response dto.
+     *
+     * @param paymentId the payment id
+     * @return {@link PaymentResponseDTO}
+     */
+    PaymentResponseDTO retrieveById(final String paymentId);
 }

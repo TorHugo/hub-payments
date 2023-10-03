@@ -101,8 +101,7 @@ O projeto Hub-Payments é uma plataforma que permite realizar transações finan
 
 ## 🚧 FEATURES 🚧: 
 ### LOJA: 
-1. [GET] Recuperação de LOJA. 
-2. [PUT] Atualização de LOJA. 
+1. [PUT] Atualização de LOJA. 
 ### USER 
 1. [PUT] Atualização de USUÁRIO. 
 2. [GET] Listagem de USUÁRIO por LOJA. 
@@ -110,11 +109,11 @@ O projeto Hub-Payments é uma plataforma que permite realizar transações finan
 1. [PUT] Atualização de CUSTOMER. 
 2. [DELETE] Exclusão de CUSTOMER. 
 ### PAYMENT 
-1. [GET] Recuperação de PAYMENT. 
-2. [DELETE] Exclusão de PAYMENT. 
-3. [POST] Estorno de PAYMENT. 
-4. [POST] PAYMENT parcelado. 
-5. [GET] Recuperação de parcelamento. 
+1. [DELETE] Exclusão de PAYMENT. 
+2. [POST] Estorno de PAYMENT. 
+3. [POST] PAYMENT parcelado. 
+4. [GET] Recuperação de parcelamento. 
+5. [GET] Recuperar comprovante de pagamento (PDF).
 ### FORMS_PAYMENT... 
 
 ## CONTRIBUIÇÃO: 
