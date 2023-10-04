@@ -39,3 +39,5 @@ request:
         value: /creditCard/tokenize
     payment:
       value: /payments
+    refund:
+      value: /refund

@@ -2,6 +2,8 @@ package com.dev.torhugo.hub_payments.client.impl;
 
 import com.dev.torhugo.hub_payments.client.CustomerClient;
 import com.dev.torhugo.hub_payments.lib.data.dto.payment.PaymentDTO;
+import com.dev.torhugo.hub_payments.lib.data.dto.refund.PaymentRefundDTO;
+import com.dev.torhugo.hub_payments.lib.data.dto.refund.PaymentRequestRefundDTO;
 import com.dev.torhugo.hub_payments.lib.data.dto.payment.PaymentReturnDTO;
 import com.dev.torhugo.hub_payments.lib.data.dto.tokenize.TokenizeRequestDTO;
 import com.dev.torhugo.hub_payments.lib.data.dto.costumer.RegisterCustomerRequestDTO;
@@ -43,6 +45,9 @@ public class CustomerClientImpl implements CustomerClient {
 
     @Value("${request.endpoint.payment.value}")
     private String endpointPayment;
+
+    @Value("${request.endpoint.refund.value}")
+    private String endpointRefund;
 
     @Value("${access.token.value}")
     private String accessToken;
@@ -101,6 +106,33 @@ public class CustomerClientImpl implements CustomerClient {
             exception.printStackTrace();
             throw new ResourceNotFoundException("exception.payment.create.client");
         }
+    }
+
+    @Override
+    public PaymentRefundDTO refund(final PaymentRequestRefundDTO refund) {
+        final String url = uriBuilder(refund);
+        final String jsonRequest = gson.toJson(refund);
+
+        try {
+            log.info("[-] - Request to endpoint: [{}].", endpointPayment);
+            final ResponseEntity<PaymentRefundDTO> response =
+                    restTemplate.exchange(url, HttpMethod.POST,
+                            createRequest(jsonRequest, createHeader(accessToken)), PaymentRefundDTO.class);
+            return response.getBody();
+        } catch (final HttpClientErrorException.Unauthorized |
+                       HttpClientErrorException.BadRequest |
+                       HttpClientErrorException.NotFound exception) {
+            exception.printStackTrace();
+            throw new ResourceNotFoundException("exception.payment.create.client");
+        }
+    }
+
+    private String uriBuilder(final PaymentRequestRefundDTO refund) {
+        return host
+                .concat(endpointPayment)
+                .concat("/")
+                .concat(refund.paymentId())
+                .concat(endpointRefund);
     }
 
     private <T> HttpEntity<String> createRequest(final T body,

@@ -1,7 +1,9 @@
 package com.dev.torhugo.hub_payments.service;
 
 import com.dev.torhugo.hub_payments.lib.data.dto.payment.PaymentRequestDTO;
+import com.dev.torhugo.hub_payments.lib.data.dto.refund.PaymentRequestRefundDTO;
 import com.dev.torhugo.hub_payments.lib.data.dto.payment.PaymentResponseDTO;
+import com.dev.torhugo.hub_payments.lib.data.dto.refund.PaymentResponseRefundDTO;
 
 /**
  * The interface Payment service.
@@ -26,4 +28,12 @@ public interface PaymentService {
      * @return {@link PaymentResponseDTO}
      */
     PaymentResponseDTO retrieveById(final String paymentId);
+
+    /**
+     * The responsibility of this method is to create a payment refund.
+     *
+     * @param refund the refund
+     * @return the object
+     */
+    PaymentResponseRefundDTO refundPayment(final PaymentRequestRefundDTO refund);
 }

@@ -1,6 +1,8 @@
 package com.dev.torhugo.hub_payments.client;
 
 import com.dev.torhugo.hub_payments.lib.data.dto.payment.PaymentDTO;
+import com.dev.torhugo.hub_payments.lib.data.dto.refund.PaymentRefundDTO;
+import com.dev.torhugo.hub_payments.lib.data.dto.refund.PaymentRequestRefundDTO;
 import com.dev.torhugo.hub_payments.lib.data.dto.payment.PaymentReturnDTO;
 import com.dev.torhugo.hub_payments.lib.data.dto.tokenize.TokenizeRequestDTO;
 import com.dev.torhugo.hub_payments.lib.data.dto.costumer.RegisterCustomerRequestDTO;
@@ -31,4 +33,11 @@ public interface CustomerClient {
      * @return the payment return dto
      */
     PaymentReturnDTO payment(final PaymentDTO paymentDTO);
+
+    /**
+     * Processing the refund.
+     *
+     * @param refund the refund
+     */
+    PaymentRefundDTO refund(final PaymentRequestRefundDTO refund);
 }

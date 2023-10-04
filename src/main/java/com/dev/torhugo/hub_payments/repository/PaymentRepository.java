@@ -5,6 +5,9 @@ import com.dev.torhugo.hub_payments.lib.data.domain.StoreModel;
 
 import java.math.BigDecimal;
 
+/**
+ * The interface Payment repository.
+ */
 public interface PaymentRepository {
 
     /**
@@ -35,4 +38,13 @@ public interface PaymentRepository {
      * @return the payment model
      */
     PaymentModel retrieveById(final String paymentId);
+
+    /**
+     * Update payment after refund.
+     *
+     * @param paymentId the payment id
+     * @param status    the status
+     */
+    void updateRefund(final String paymentId,
+                      final String status);
 }

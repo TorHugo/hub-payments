@@ -15,6 +15,8 @@ O projeto Hub-Payments é uma plataforma que permite realizar transações finan
 
 ## ENDPOINTS: 
 ### STORE. 
+
+-  <b>Endpoint responsável por:</b> cadastrar uma nova <b>LOJA</b> no sistema.<br/>
 ```http
   POST /api/v1/store
 ```
@@ -24,6 +26,7 @@ O projeto Hub-Payments é uma plataforma que permite realizar transações finan
 | `password`    | `string` | **Obrigatório**. Senha para cadastro da loja.       | 
 | `cpf_or_cnpj` | `string` | **Obrigatório**. Cpf ou Cnpj para cadastro da loja. | 
 
+-  <b>Endpoint responsável por:</b> recuperar uma nova loja por <b>store_id</b>.<br/>
 ```http
   GET /api/v1/store/retrieve/{store_id}
 ```
@@ -32,6 +35,10 @@ O projeto Hub-Payments é uma plataforma que permite realizar transações finan
 | ` store_id ` | `long` | **Obrigatório**. ID da LOJA. |
 
 ### USER. 
+
+-  <b>Endpoint responsável por:</b> cadastrar um novo usuário no sistema.<br/>
+- Observação:
+    - Para o cadastro de um usuário no sistema, é necessário realizar a criação de uma <b>LOJA</b> antes.
 ```http 
   POST /api/v1/user/register 
 ``` 
@@ -44,6 +51,7 @@ O projeto Hub-Payments é uma plataforma que permite realizar transações finan
 | `last_name`   | `string` | **Obrigatório**. Último nome do cliente.               | 
 | `phone`       | `string` | **Obrigatório**. Telefone para contato do cliente.     | 
 
+-  <b>Endpoint responsável por:</b> recuperar um usuário por <b>store_id</b> e <b>email</b>.<br/>
 ```http 
   GET/api/v1/user/retrieve/{store_id} ?{email} 
 ``` 
@@ -53,6 +61,9 @@ O projeto Hub-Payments é uma plataforma que permite realizar transações finan
 | `email`      | `string` | **Obrigatório**. Email do usuário há ser recuperado.  | 
 
 ### CUSTOMER.
+
+-  <b>Endpoint responsável por:</b> realizar há tokenização do cartão de crédito do cliente. <br/> 
+    Para que o mesmo (credit_card_token) seja utilizado em demais requisições.<br/>
 ```http 
   POST /api/v1/customer/credit-token 
 ``` 
@@ -74,6 +85,8 @@ O projeto Hub-Payments é uma plataforma que permite realizar transações finan
 | `creditCardHolderInfo.phone`         | `string` | **Obrigatório**. Telefone de contato do titular do cartão. | 
  
 ### SIMULATION.
+
+-  <b>Endpoint responsável por:</b> realizar uma simulação de parcelamento.<br/>
 ```http 
   GET /api/v1/simulation 
 ``` 
@@ -85,6 +98,11 @@ O projeto Hub-Payments é uma plataforma que permite realizar transações finan
 | `first_installment` | `boolean` | Indica se é a primeira parcela (true/false).      | 
 
 ### PAYMENT.
+- <b>Endpoint responsável por:</b> criar um novo pagamento. <br/>
+- Observação: 
+    - Não é possível realizar dois pagamentos com os valores abaixo iguais: <br/> 
+        <b>store_id, customer, value e external_reference</b>.
+
 ```http 
   POST /api/v1/payment 
 ``` 
@@ -99,6 +117,30 @@ O projeto Hub-Payments é uma plataforma que permite realizar transações finan
 | `external_reference` | `string` | Referência externa associada à transação.              | 
 | `credit_card_token`  | `string` | Token do cartão de crédito associado à transação.      | 
 
+
+-  <b>Endpoint responsável por:</b> recupera um pagamento por <b>payment_id</b>.<br/>
+```http
+  GET /api/v1/payment/retrieve/{payment_id}
+```
+| Parâmetro      | Tipo   | Descrição                         | 
+|:---------------|:-------|:----------------------------------| 
+| ` payment_id ` | `long` | **Obrigatório**. ID do PAGAMENTO. |
+
+
+-  <b>Endpoint responsável por:</b> realizar o estorno de um pagamento.<br/>
+- Observação:
+    - Pode ser realizado um estorno parcial da compra do cliente, passando um valor no <b>value</b>. <br/>
+        Caso não seja enviado nenhum valor, ele irá estornar o valor total da compra.
+    - O estorno pode demorar até duas faturas para retornar ao cartão do cliente.
+```http 
+  POST /api/v1/payment/refund
+``` 
+| Parâmetro        | Tipo     | Descrição                         |
+|:-----------------|:---------|:----------------------------------|
+| `payment_id`     | `string` | **Obrigatório**. ID do pagamento. |
+| `value`          | `float`  | Valor do reembolso.               |
+| `refund_message` | `string` | Mensagem de reembolso.            |
+
 ## 🚧 FEATURES 🚧: 
 ### LOJA: 
 1. [PUT] Atualização de LOJA. 
@@ -109,8 +151,8 @@ O projeto Hub-Payments é uma plataforma que permite realizar transações finan
 1. [PUT] Atualização de CUSTOMER. 
 2. [DELETE] Exclusão de CUSTOMER. 
 ### PAYMENT 
-1. [DELETE] Exclusão de PAYMENT. 
-2. [POST] Estorno de PAYMENT. 
+1. [GET] Refatoração no endpoint: recuperação de pagamento.
+2. [DELETE] Exclusão de PAYMENT.
 3. [POST] PAYMENT parcelado. 
 4. [GET] Recuperação de parcelamento. 
 5. [GET] Recuperar comprovante de pagamento (PDF).

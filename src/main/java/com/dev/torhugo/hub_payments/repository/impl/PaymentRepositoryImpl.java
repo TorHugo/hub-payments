@@ -21,6 +21,9 @@ public class PaymentRepositoryImpl implements PaymentRepository {
     @Value("${SPI.PAYMENT}")
     private String queryInsertPayment;
 
+    @Value("${SPU.PAYMENT.SET.STATUS}")
+    private String queryUpdatePaymentRefund;
+
     @Value("${SPS.PAYMENT.WHERE.STORE_ID.AND.CUSTOMER_ID.AND.VALUE.AND.EXTERNAL_REFERENCE}")
     private String queryValidatingExistsPayment;
 
@@ -50,6 +53,19 @@ public class PaymentRepositoryImpl implements PaymentRepository {
                 buildParam(paymentId),
                 BeanPropertyRowMapper.newInstance(PaymentModel.class))
                 .orElse(null);
+    }
+
+    @Override
+    public void updateRefund(final String paymentId, final String status) {
+        databaseService.persist(queryUpdatePaymentRefund, buildParam(paymentId, status));
+    }
+
+    private MapSqlParameterSource buildParam(final String paymentId,
+                                             final String status) {
+        MapSqlParameterSource parameter = new MapSqlParameterSource();
+        parameter.addValue("paymentId", paymentId);
+        parameter.addValue("status", status);
+        return parameter;
     }
 
     private MapSqlParameterSource buildParam(final String paymentId) {

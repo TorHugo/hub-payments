@@ -16,18 +16,14 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "payment_tb")
-public class PaymentModel extends BaseModel{
+@Table(name = "refund_tb")
+public class RefundModel extends BaseModel {
 
     @Id
+    private Long refundId;
     private String paymentId;
-    private String customerId;
-    private Long storeId;
-    private String externalReference;
     private BigDecimal value;
     private String status;
-    private String description;
-    private LocalDate dueDate;
+    private String descriptionRefund;
     private LocalDate dateCreated;
-    private Long formPaymentId;
 }

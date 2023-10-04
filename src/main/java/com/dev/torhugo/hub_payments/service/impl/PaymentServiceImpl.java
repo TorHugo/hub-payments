@@ -1,22 +1,18 @@
 package com.dev.torhugo.hub_payments.service.impl;
 
 import com.dev.torhugo.hub_payments.client.CustomerClient;
-import com.dev.torhugo.hub_payments.lib.data.domain.CreditCardModel;
-import com.dev.torhugo.hub_payments.lib.data.domain.CustomerModel;
-import com.dev.torhugo.hub_payments.lib.data.domain.PaymentModel;
-import com.dev.torhugo.hub_payments.lib.data.domain.StoreModel;
+import com.dev.torhugo.hub_payments.lib.data.domain.*;
 import com.dev.torhugo.hub_payments.lib.data.dto.CustomerResponseDTO;
-import com.dev.torhugo.hub_payments.lib.data.dto.payment.PaymentDTO;
-import com.dev.torhugo.hub_payments.lib.data.dto.payment.PaymentRequestDTO;
-import com.dev.torhugo.hub_payments.lib.data.dto.payment.PaymentResponseDTO;
-import com.dev.torhugo.hub_payments.lib.data.dto.payment.PaymentReturnDTO;
+import com.dev.torhugo.hub_payments.lib.data.dto.payment.*;
+import com.dev.torhugo.hub_payments.lib.data.dto.refund.PaymentRefundDTO;
+import com.dev.torhugo.hub_payments.lib.data.dto.refund.PaymentRequestRefundDTO;
+import com.dev.torhugo.hub_payments.lib.data.dto.refund.PaymentResponseRefundDTO;
 import com.dev.torhugo.hub_payments.lib.data.dto.tokenize.TokenizeRequestDTO;
 import com.dev.torhugo.hub_payments.lib.exception.impl.DataBaseException;
+import com.dev.torhugo.hub_payments.lib.exception.impl.ResourceNotFoundException;
 import com.dev.torhugo.hub_payments.mapper.PaymentMapper;
-import com.dev.torhugo.hub_payments.repository.CreditCardRepository;
-import com.dev.torhugo.hub_payments.repository.CustomerRepository;
-import com.dev.torhugo.hub_payments.repository.PaymentRepository;
-import com.dev.torhugo.hub_payments.repository.StoreRepository;
+import com.dev.torhugo.hub_payments.mapper.RefundMapper;
+import com.dev.torhugo.hub_payments.repository.*;
 import com.dev.torhugo.hub_payments.service.CustomerService;
 import com.dev.torhugo.hub_payments.service.PaymentService;
 import jakarta.transaction.Transactional;
@@ -25,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
-import java.util.Optional;
+import static com.dev.torhugo.hub_payments.util.ConstraintUtil.STATUS_REFUND;
 
 @Service
 @RequiredArgsConstructor
@@ -37,7 +33,9 @@ public class PaymentServiceImpl implements PaymentService {
     private final CustomerRepository customerRepository;
     private final CreditCardRepository creditCardRepository;
     private final PaymentRepository paymentRepository;
+    private final RefundRepository refundRepository;
     private final PaymentMapper paymentMapper;
+    private final RefundMapper refundMapper;
     private final CustomerClient customerClient;
 
     @Override
@@ -79,6 +77,48 @@ public class PaymentServiceImpl implements PaymentService {
             throw new DataBaseException("Payment not found!.", paymentId);
         log.info("[2] - Mapping to response.");
         return mappingToResponse(retrievePayment);
+    }
+
+    @Override
+    public PaymentResponseRefundDTO refundPayment(final PaymentRequestRefundDTO refund) {
+        log.info("[1] - Retrieve payment in the database.");
+        final PaymentModel paymentModel = retrievePayment(refund.paymentId());
+        log.info("[2] - Validating refund. PaymentId: [{}].", refund.paymentId());
+        validatingRefund(paymentModel);
+        log.info("[3] - Processing a refund.");
+        final PaymentRefundDTO responseToRefund = customerClient.refund(refund);
+        log.info("[2] - Mapping to model.");
+        final RefundModel refundModel = mappingToRefund(refund, responseToRefund);
+        log.info("[5] - Saving REFUND and update PAYMENT in the database.");
+        saveRefund(refundModel, responseToRefund);
+        log.info("[6] - Mapping to response.");
+        return mappingToResponseRefund(responseToRefund, refund);
+    }
+
+    private PaymentResponseRefundDTO mappingToResponseRefund(final PaymentRefundDTO responseToRefund,
+                                                             final PaymentRequestRefundDTO refund) {
+        return refundMapper.mapperToResponse(refund, responseToRefund);
+    }
+
+    private void saveRefund(final RefundModel refundModel, final PaymentRefundDTO responseToRefund) {
+        refundRepository.insert(refundModel);
+
+        if (Objects.equals(responseToRefund.status(), STATUS_REFUND)) {
+            paymentRepository.updateRefund(refundModel.getPaymentId(), responseToRefund.status());
+            refundRepository.updateRefund(refundModel.getPaymentId(), refundModel.getStatus());
+        }
+    }
+
+    private RefundModel mappingToRefund(final PaymentRequestRefundDTO refund,
+                                        final PaymentRefundDTO responseToRefund) {
+        return refundMapper.mapperToModel(refund, responseToRefund);
+    }
+
+    private void validatingRefund(final PaymentModel paymentModel) {
+        if (Objects.isNull(paymentModel))
+            throw new DataBaseException("Payment not found!.", paymentModel.getPaymentId());
+        if (Objects.equals(paymentModel.getStatus(), STATUS_REFUND))
+            throw new ResourceNotFoundException("The refund has already been processed for this purchase!.");
     }
 
     private PaymentModel retrievePayment(final String paymentId) {
