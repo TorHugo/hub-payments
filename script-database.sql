@@ -128,9 +128,31 @@ VALUES 	('VISA'), ('MASTERCARD'), ('ELO');
 INSERT INTO form_payment_tb (name_form_payment,	description_form_payment)
 VALUES ('CreditCard', 'Representation form payment of CreditCard.');
 -- ====================== END ====================== --
+-- ====================== START ====================== --
+CREATE TABLE refund_tb (
+	refund_id			SERIAL NOT NULL,
+	payment_id			VARCHAR(500) NOT NULL,
+	value				FLOAT NOT NULL,
+	status				VARCHAR(50) NOT NULL,
+	description_refund	VARCHAR(500),
+	date_created		DATE,
+	creat_at 			TIMESTAMPTZ DEFAULT Now(),
+	update_at 			TIMESTAMP
+);
 
+ALTER TABLE ONLY refund_tb
+	ADD CONSTRAINT pk_refund_tb PRIMARY KEY (refund_id);
+ALTER TABLE ONLY refund_tb
+	ADD CONSTRAINT fk_refund_x_payment FOREIGN KEY (payment_id) REFERENCES payment_tb;	
+-- ====================== END ====================== --
+
+UPDATE payment_tb
+    SET status = 'testing'
+        , update_at = Now()
+WHERE payment_id = 'pay_4938960133964408'
 
 SELECT * FROM store_tb
 SELECT * FROM user_tb
 SELECT * FROM customer_tb
 SELECT * FROM payment_tb
+ 
