@@ -148,7 +148,7 @@ O projeto Hub-Payments é uma plataforma que permite realizar transações finan
 1. [PUT] Atualização de USUÁRIO. 
 2. [GET] Listagem de USUÁRIO por LOJA. 
 ### CUSTOMER 
-1. [PUT] Atualização de CUSTOMER. 
+1. [PUT] Atualização de CUSTOMER.
 2. [DELETE] Exclusão de CUSTOMER. 
 ### PAYMENT 
 1. [GET] Refatoração no endpoint: recuperação de pagamento.
