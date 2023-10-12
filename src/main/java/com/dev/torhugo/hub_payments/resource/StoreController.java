@@ -23,11 +23,11 @@ public class StoreController implements HubResource {
         return returnSuccess(storeService.createStore(store));
     }
 
-    @GetMapping("/retrieve/{storeId}")
+    @GetMapping("/retrieve/{cpfOrCnpj}")
     public ResponseEntity<HubResponse<StoreResponseDTO>> retrieveStore(
-            @PathVariable final Long storeId
+            @PathVariable final String cpfOrCnpj
     ) {
-        return returnSuccess(storeService.retrieveById(storeId));
+        return returnSuccess(storeService.retrieveByCpfOrCnpj(cpfOrCnpj));
     }
 
 }

@@ -16,8 +16,8 @@ public interface StoreService {
     /**
      * Retrieve by id store response dto.
      *
-     * @param storeId the store id
+     * @param cpfOrCnpj the cpf or cnpj of store
      * @return the store response dto
      */
-    StoreResponseDTO retrieveById(final Long storeId);
+    StoreResponseDTO retrieveByCpfOrCnpj(final String cpfOrCnpj);
 }

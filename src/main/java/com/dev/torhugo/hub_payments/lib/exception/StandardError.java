@@ -1,5 +1,7 @@
 package com.dev.torhugo.hub_payments.lib.exception;
 
+import com.dev.torhugo.hub_payments.lib.data.dto.LinkResponseDTO;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,4 +22,6 @@ public class StandardError implements Serializable{
 	private String error;
 	private String message;
 	private String path;
+	@JsonProperty("_links")
+	private LinkResponseDTO link;
 }

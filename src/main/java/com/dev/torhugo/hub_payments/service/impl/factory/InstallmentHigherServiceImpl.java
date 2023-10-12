@@ -4,9 +4,9 @@ import com.dev.torhugo.hub_payments.lib.data.dto.simulation.PaymentInstallmentDT
 import com.dev.torhugo.hub_payments.lib.data.dto.simulation.SimulationRequestDTO;
 import com.dev.torhugo.hub_payments.lib.data.dto.simulation.SimulationResponseDTO;
 import com.dev.torhugo.hub_payments.lib.data.dto.simulation.ValueDistributionDTO;
-import com.dev.torhugo.hub_payments.service.SimulationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import com.dev.torhugo.hub_payments.service.SimulationService;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

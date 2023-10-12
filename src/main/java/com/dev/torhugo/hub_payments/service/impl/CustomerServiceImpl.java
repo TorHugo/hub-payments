@@ -10,7 +10,6 @@ import com.dev.torhugo.hub_payments.lib.data.dto.costumer.RegisterCustomerReques
 import com.dev.torhugo.hub_payments.lib.data.dto.costumer.RegisterCustomerResponseDTO;
 import com.dev.torhugo.hub_payments.lib.data.dto.tokenize.TokenizeResponseDTO;
 import com.dev.torhugo.hub_payments.lib.data.enumerator.FormPaymentEnum;
-import com.dev.torhugo.hub_payments.lib.exception.impl.DataBaseException;
 import com.dev.torhugo.hub_payments.mapper.CreditCardMapper;
 import com.dev.torhugo.hub_payments.mapper.CustomerMapper;
 import com.dev.torhugo.hub_payments.repository.CreditCardRepository;
@@ -23,16 +22,17 @@ import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 
+import static com.dev.torhugo.hub_payments.lib.data.enumerator.MessageEnum.NOT_FOUND;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class CustomerServiceImpl implements CustomerService {
+public class CustomerServiceImpl extends DefaultServiceImpl implements CustomerService {
     private final CustomerRepository customerRepository;
     private final CustomerClient customerClient;
     private final CustomerMapper customerMapper;
     private final CreditCardMapper creditCardMapper;
     private final CreditCardRepository creditCardRepository;
-
     private static final FormPaymentEnum FORM_CREDIT_CARD = FormPaymentEnum.CREDIT_CARD;
 
     @Override
@@ -66,7 +66,7 @@ public class CustomerServiceImpl implements CustomerService {
         final CustomerModel customerModel =
                 customerRepository.retrieveByCustomerId(tokenization.customer());
         if (Objects.isNull(customerModel))
-            throw new DataBaseException("Entity not found!", tokenization.customer());
+            super.defaultError(NOT_FOUND, "Customer", tokenization.customer(), "/user/register", "[POST]");
         log.info("[1] - Register new tokenization of creditCard.");
         final TokenizeResponseDTO response = customerClient.tokenize(tokenization);
         log.info("[2] - Saved creditCard in the database.");

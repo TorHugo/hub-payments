@@ -29,16 +29,16 @@ public class StoreMapper {
                 .cpfOrCnpj(model.getCpfOrCnpj())
                 .link(LinkResponseDTO.builder()
                         .method("[GET]")
-                        .href(buildHref(model.getStoreId()))
+                        .href(buildHref(model.getCpfOrCnpj()))
                         .build())
                 .build();
     }
 
-    private String buildHref(final Long storeId){
-        return genericHost(HOST_URL, buildPath(storeId));
+    private String buildHref(final String cpfOrCnpj){
+        return genericHost(HOST_URL, buildPath(cpfOrCnpj));
     }
 
-    private String buildPath(final Long storeId) {
-        return PATH_URL.concat(String.valueOf(storeId));
+    private String buildPath(final String cpfOrCnpj) {
+        return PATH_URL.concat(cpfOrCnpj);
     }
 }

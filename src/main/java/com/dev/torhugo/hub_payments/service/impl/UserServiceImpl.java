@@ -1,14 +1,17 @@
 package com.dev.torhugo.hub_payments.service.impl;
 
 import com.dev.torhugo.hub_payments.lib.data.domain.CustomerModel;
+import com.dev.torhugo.hub_payments.lib.data.domain.StoreModel;
 import com.dev.torhugo.hub_payments.lib.data.domain.UserModel;
 import com.dev.torhugo.hub_payments.lib.data.dto.CustomerRequestDTO;
 import com.dev.torhugo.hub_payments.lib.data.dto.CustomerResponseDTO;
 import com.dev.torhugo.hub_payments.lib.data.dto.UserRequestDTO;
 import com.dev.torhugo.hub_payments.lib.data.dto.UserResponseDTO;
+import com.dev.torhugo.hub_payments.lib.exception.impl.DataBaseException;
 import com.dev.torhugo.hub_payments.mapper.CustomerMapper;
 import com.dev.torhugo.hub_payments.mapper.UserMapper;
 import com.dev.torhugo.hub_payments.repository.CustomerRepository;
+import com.dev.torhugo.hub_payments.repository.StoreRepository;
 import com.dev.torhugo.hub_payments.repository.UserRepository;
 import com.dev.torhugo.hub_payments.service.CustomerService;
 import com.dev.torhugo.hub_payments.service.UserService;
@@ -17,22 +20,30 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import static com.dev.torhugo.hub_payments.lib.data.enumerator.MessageEnum.CONTACT_SUPPORT;
+import static com.dev.torhugo.hub_payments.lib.data.enumerator.MessageEnum.NOT_FOUND;
+
 import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends DefaultServiceImpl implements UserService {
 
     private final CustomerService customerService;
     private final UserRepository userRepository;
     private final CustomerRepository customerRepository;
+    private final StoreRepository storeRepository;
     private final UserMapper userMapper;
     private final CustomerMapper customerMapper;
 
     @Override
     @Transactional
     public UserResponseDTO register(final UserRequestDTO user) {
+        log.info("[0] - Validating exists store in the database. StoreId: [{}].", user.storeId());
+        final StoreModel retrieveStore = retrieveStoreById(user.storeId());
+        if (Objects.isNull(retrieveStore))
+            super.defaultError(NOT_FOUND, "Store", user.email(), "/store", "[POST]");
         log.info("[1] - Validating exists user ({}) to database for store ({}).", user.email(), user.storeId());
         final UserModel retrieveUser = retrieveUserByEmailAndStore(user.email(), user.storeId());
         if (Objects.nonNull(retrieveUser)){
@@ -52,6 +63,11 @@ public class UserServiceImpl implements UserService {
         log.info("[5] - Mapping to response.");
         return userMapper.modelToResponse(userModel, userId, customerResponse);
     }
+
+    private StoreModel retrieveStoreById(final Long storeId) {
+        return storeRepository.retrieveById(storeId);
+    }
+
     @Override
     @Transactional
     public UserResponseDTO retrieveByStoreIdAndUserId(final Long storeId,

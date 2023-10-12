@@ -1,5 +1,6 @@
 package com.dev.torhugo.hub_payments.lib.exception;
 
+import com.dev.torhugo.hub_payments.lib.data.dto.LinkResponseDTO;
 import com.dev.torhugo.hub_payments.lib.exception.impl.DataBaseException;
 import com.dev.torhugo.hub_payments.lib.exception.impl.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -40,9 +41,13 @@ public class ResourceExceptionHandler {
 
 		err.setTimestamp(Instant.now());
 		err.setStatus(badRequest.value());
-		err.setError("DataBase exception. " + exception.getError());
+		err.setError(exception.getError().toString());
 		err.setMessage(exception.getMessage());
 		err.setPath(request.getRequestURI());
+		err.setLink(LinkResponseDTO.builder()
+						.href(exception.getHref())
+						.method(exception.getMethod())
+					.build());
 
 		return ResponseEntity.status(badRequest).body(err);
 	}

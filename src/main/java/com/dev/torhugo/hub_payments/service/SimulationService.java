@@ -1,12 +1,10 @@
 package com.dev.torhugo.hub_payments.service;
 
-import com.dev.torhugo.hub_payments.lib.data.dto.simulation.PaymentInstallmentDTO;
 import com.dev.torhugo.hub_payments.lib.data.dto.simulation.SimulationRequestDTO;
 import com.dev.torhugo.hub_payments.lib.data.dto.simulation.SimulationResponseDTO;
 import com.dev.torhugo.hub_payments.lib.data.dto.simulation.ValueDistributionDTO;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 public interface SimulationService {
 

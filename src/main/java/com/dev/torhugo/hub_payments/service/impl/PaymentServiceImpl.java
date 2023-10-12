@@ -8,6 +8,7 @@ import com.dev.torhugo.hub_payments.lib.data.dto.refund.PaymentRefundDTO;
 import com.dev.torhugo.hub_payments.lib.data.dto.refund.PaymentRequestRefundDTO;
 import com.dev.torhugo.hub_payments.lib.data.dto.refund.PaymentResponseRefundDTO;
 import com.dev.torhugo.hub_payments.lib.data.dto.tokenize.TokenizeRequestDTO;
+import com.dev.torhugo.hub_payments.lib.data.enumerator.MessageEnum;
 import com.dev.torhugo.hub_payments.lib.exception.impl.DataBaseException;
 import com.dev.torhugo.hub_payments.lib.exception.impl.ResourceNotFoundException;
 import com.dev.torhugo.hub_payments.mapper.PaymentMapper;
@@ -21,12 +22,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
+
+import static com.dev.torhugo.hub_payments.lib.data.enumerator.MessageEnum.FOUND_RECURRENCE;
+import static com.dev.torhugo.hub_payments.lib.data.enumerator.MessageEnum.NOT_FOUND;
 import static com.dev.torhugo.hub_payments.util.ConstraintUtil.STATUS_REFUND;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class PaymentServiceImpl implements PaymentService {
+public class PaymentServiceImpl extends DefaultServiceImpl implements PaymentService {
 
     private final CustomerService customerService;
     private final StoreRepository storeRepository;
@@ -44,14 +48,14 @@ public class PaymentServiceImpl implements PaymentService {
         String tokenization = null;
         log.info("[0] - Validation externalReference.");
         if (Objects.nonNull(retrieveStore(paymentRequest)))
-            throw new DataBaseException("There is already payment with these amounts.", null);
+            super.defaultError(FOUND_RECURRENCE, "Payment", paymentRequest.customer(), null, null);
         log.info("[1] - Validating store exists. storeId: [{}].", paymentRequest.storeId());
         if (Objects.isNull(retrieveStore(paymentRequest.storeId())))
-            throw new DataBaseException("Store not found. storeId:", paymentRequest.storeId());
+            super.defaultError(NOT_FOUND, "Store", paymentRequest.storeId().toString(), "/store", "[POST]");
         log.info("[2] - Validating customer exists. customerId: [{}].", paymentRequest.customer());
         final CustomerModel retrieveCustomer = retrieveCustomer(paymentRequest.customer());
         if (Objects.isNull(retrieveCustomer))
-            throw new DataBaseException("Customer not found!.", paymentRequest.customer());
+            super.defaultError(NOT_FOUND, "Customer", paymentRequest.customer(), "/user/register", "[POST]");
         log.info("[3] - Retrieve cardToken of customer.");
         final CreditCardModel retrieveCreditCard = retrieveCreditCardById(retrieveCustomer.getCreditCardId());
         if (Objects.isNull(retrieveCreditCard.getCardToken())) {
@@ -74,7 +78,7 @@ public class PaymentServiceImpl implements PaymentService {
         log.info("[1] - Retrieve payment by PaymentId: [{}].", paymentId);
         final PaymentModel retrievePayment = retrievePayment(paymentId);
         if (Objects.isNull(retrievePayment))
-            throw new DataBaseException("Payment not found!.", paymentId);
+            super.defaultError(NOT_FOUND, "Payment", paymentId, "/payment", "[POST]");
         log.info("[2] - Mapping to response.");
         return mappingToResponse(retrievePayment);
     }
@@ -116,7 +120,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     private void validatingRefund(final PaymentModel paymentModel) {
         if (Objects.isNull(paymentModel))
-            throw new DataBaseException("Payment not found!.", paymentModel.getPaymentId());
+            super.defaultError(NOT_FOUND, "Payment", null, "/payment", "[POST]");
         if (Objects.equals(paymentModel.getStatus(), STATUS_REFUND))
             throw new ResourceNotFoundException("The refund has already been processed for this purchase!.");
     }

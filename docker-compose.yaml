@@ -8,19 +8,17 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 10021977
     ports:
-      - "5432:5432"
+      - "5435:5432"
     volumes:
       - ./postgres-data:/var/lib/postgresql/data
 
   spring-boot-app:
-    build:
-      context: ./
-#      dockerfile: Dockerfile  # Seu Dockerfile
     container_name: spring-boot-app
+    image: hub_payment_0.0.4
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/hub_payment
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: 10021977
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
       access_token: ${access_token}
     ports:
       - "8080:8080"
@@ -28,3 +26,11 @@ services:
       - postgres
     volumes:
       - ./src/main:/app/src/main
+
+# mvn package            (Generated as new .jar)
+# docker build -t [name] . (Generated as new image)
+
+# docker-compose up      (Create new network)
+# docker-compose up -d   (Recreated as new docker image)
+# docker-compose down    (Delete as network)
+# docker-compose stop    (Stop as network)

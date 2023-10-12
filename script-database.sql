@@ -145,14 +145,3 @@ ALTER TABLE ONLY refund_tb
 ALTER TABLE ONLY refund_tb
 	ADD CONSTRAINT fk_refund_x_payment FOREIGN KEY (payment_id) REFERENCES payment_tb;	
 -- ====================== END ====================== --
-
-UPDATE payment_tb
-    SET status = 'testing'
-        , update_at = Now()
-WHERE payment_id = 'pay_4938960133964408'
-
-SELECT * FROM store_tb
-SELECT * FROM user_tb
-SELECT * FROM customer_tb
-SELECT * FROM payment_tb
- 

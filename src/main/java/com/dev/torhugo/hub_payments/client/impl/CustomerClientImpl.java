@@ -104,7 +104,7 @@ public class CustomerClientImpl implements CustomerClient {
                        HttpClientErrorException.BadRequest |
                        HttpClientErrorException.NotFound exception) {
             exception.printStackTrace();
-            throw new ResourceNotFoundException("exception.payment.create.client");
+            throw new ResourceNotFoundException(exception.getMessage());
         }
     }
 
