@@ -10,7 +10,7 @@ O projeto Hub-Payments é uma plataforma que permite realizar transações finan
 - Java 17 
 - PostgreSQL 
 - SpringBoot v3.1.4 (validation/ gson/ devtools/ jdbc/ lombok) 
-
+- Docker
  
 
 ## ENDPOINTS: 
@@ -141,7 +141,7 @@ O projeto Hub-Payments é uma plataforma que permite realizar transações finan
 | `value`          | `float`  | Valor do reembolso.               |
 | `refund_message` | `string` | Mensagem de reembolso.            |
 
-## 🚧 FEATURES 🚧: 
+## 🚧 NEW FEATURES 🚧: 
 ### LOJA: 
 1. [PUT] Atualização de LOJA. 
 ### USER 
@@ -151,11 +151,9 @@ O projeto Hub-Payments é uma plataforma que permite realizar transações finan
 1. [PUT] Atualização de CUSTOMER.
 2. [DELETE] Exclusão de CUSTOMER. 
 ### PAYMENT 
-1. [GET] Refatoração no endpoint: recuperação de pagamento.
-2. [DELETE] Exclusão de PAYMENT.
-3. [POST] PAYMENT parcelado. 
-4. [GET] Recuperação de parcelamento. 
-5. [GET] Recuperar comprovante de pagamento (PDF).
+1. [POST] PAYMENT parcelado. 
+2. [GET] Recuperação de parcelamento. 
+3. [GET] Recuperar comprovante de pagamento (PDF).
 ### FORMS_PAYMENT... 
 
 ## CONTRIBUIÇÃO: 
